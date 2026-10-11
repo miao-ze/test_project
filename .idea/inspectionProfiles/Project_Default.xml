@@ -1,0 +1,67 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="Eslint" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="PyPackageRequirementsInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredPackages">
+        <list>
+          <option value="alipay" />
+          <option value="amqp" />
+          <option value="anyio" />
+          <option value="asgiref" />
+          <option value="billiard" />
+          <option value="celery" />
+          <option value="celery-types" />
+          <option value="certifi" />
+          <option value="cffi" />
+          <option value="charset-normalizer" />
+          <option value="click" />
+          <option value="click-didyoumean" />
+          <option value="click-plugins" />
+          <option value="click-repl" />
+          <option value="colorama" />
+          <option value="cryptography" />
+          <option value="Django" />
+          <option value="django-elasticsearch-dsl" />
+          <option value="django-redis" />
+          <option value="dnspython" />
+          <option value="elastic-transport" />
+          <option value="elasticsearch" />
+          <option value="eventlet" />
+          <option value="gevent" />
+          <option value="greenlet" />
+          <option value="idna" />
+          <option value="itsdangerous" />
+          <option value="Jinja2" />
+          <option value="kombu" />
+          <option value="MarkupSafe" />
+          <option value="mutagen" />
+          <option value="packaging" />
+          <option value="pillow" />
+          <option value="prompt_toolkit" />
+          <option value="pycparser" />
+          <option value="pycryptodomex" />
+          <option value="PyMySQL" />
+          <option value="pyOpenSSL" />
+          <option value="python-dateutil" />
+          <option value="pytz" />
+          <option value="QQLoginTool" />
+          <option value="redis" />
+          <option value="requests" />
+          <option value="ronglian-sms-sdk" />
+          <option value="six" />
+          <option value="sniffio" />
+          <option value="sqlparse" />
+          <option value="typing_extensions" />
+          <option value="tzdata" />
+          <option value="urllib3" />
+          <option value="vine" />
+          <option value="wcwidth" />
+          <option value="zope.event" />
+          <option value="zope.interface" />
+          <option value="iopaint" />
+        </list>
+      </option>
+    </inspection_tool>
+  </profile>
+</component>

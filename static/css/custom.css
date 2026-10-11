@@ -1,0 +1,133 @@
+/* ========== 全局基础样式 ========== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #f5f7fa;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* ========== 导航栏美化 ========== */
+.custom-navbar {
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    margin-bottom: 30px;
+    border-radius: 0 0 8px 8px;
+}
+
+.custom-navbar .navbar-brand {
+    font-weight: 600;
+    font-size: 1.25rem;
+}
+
+.custom-navbar .nav-link {
+    transition: opacity 0.3s ease;
+}
+
+.custom-navbar .nav-link:hover {
+    opacity: 0.85;
+}
+
+/* ========== 页面标题 ========== */
+.page-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 24px;
+    position: relative;
+    padding-left: 12px;
+}
+
+.page-title::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 24px;
+    background-color: #007bff;
+    border-radius: 2px;
+}
+
+/* ========== 文章卡片容器 ========== */
+.article-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* ========== 文章卡片核心样式 ========== */
+.article-card {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    transition: all 0.3s ease;
+    border: 1px solid #eef0f3;
+}
+
+.article-card:hover {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+}
+
+/* 卡片头部：ID、标题、作者、时间 */
+.article-header {
+    margin-bottom: 16px;
+    border-bottom: 1px solid #f0f2f5;
+    padding-bottom: 12px;
+}
+
+.article-id {
+    display: inline-block;
+    background-color: #e7f1ff;
+    color: #007bff;
+    font-size: 0.75rem;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.article-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #2c3e50;
+    margin: 8px 0;
+}
+
+.article-meta {
+    font-size: 0.875rem;
+    color: #6c757d;
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+/* 文章内容 */
+.article-content {
+    color: #495057;
+    font-size: 0.95rem;
+    line-height: 1.8;
+    text-align: justify;
+}
+
+/* ========== 响应式适配 ========== */
+@media (max-width: 768px) {
+    .article-card {
+        padding: 16px;
+    }
+
+    .article-title {
+        font-size: 1.1rem;
+    }
+
+    .page-title {
+        font-size: 1.5rem;
+    }
+}

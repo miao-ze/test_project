@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}文章列表{% endblock %}
+
+{% block content %}
+<div class="article-list-wrapper">
+    <h3 class="page-title">文章列表</h3>
+
+    <div class="article-list">
+        {% for article in articles %}
+        <div class="article-card">
+            <div class="article-header">
+                <span class="article-id">ID: {{ article.id }}</span>
+                <h4 class="article-title">{{ article.title }}</h4>
+                <div class="article-meta">
+                    <span>作者：{{ article.user.username }}</span>
+                    <span>发布时间：{{ article.publish_data | date:'Y-m-d' }}</span>
+                </div>
+            </div>
+            <div class="article-content">
+                {{ article.content }}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
