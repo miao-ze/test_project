@@ -5,5 +5,5 @@ app_name = 'main'
 
 
 urlpatterns = [
-    path('',views.main)
+    path('',views.main,name='index')
 ]
