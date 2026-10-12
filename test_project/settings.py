@@ -152,3 +152,53 @@ MAILERS = {
 LANGUAGE_CODE = 'zh-hans'   # 网站语言：简体中文
 TIME_ZONE = 'Asia/Shanghai' # 时区：上海（北京时间）
 
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False, #是否警用已经存在的日志器
+    # 1.0配置信息显示格式
+    'formatters': {
+        # 1.1 verbose 详细显示的信息
+        'verbose': {'format': '%(levelname)s %(asctime)s %(module)s %(lineno)d %(message)s'},
+        # 1.2 simple 简单显示的信息
+        'simple': {'format': '%(levelname)s %(module)s %(lineno)d %(message)s'}
+    },
+    # 2.0 对日志进行过滤
+    'filters': {
+        # 2.1 django在debug格式下才输出日志
+        'require_debug_true': {
+            '()': 'django.utils.log.RequireDebugTrue',
+        },
+    },
+    # 3.0 日志处理方法
+    'handlers': {
+        # 3.1 向终端中输出日志
+        'console': {
+            'level': 'INFO',
+            'filters': ['require_debug_true'],  # 与 filters 名称一致
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple',
+        },
+        # 3.2 向文件中输出日志
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join(BASE_DIR, 'logs','meiduo.log'),  # 依赖 os，已导入
+            'maxBytes': 1024*1024*100,
+            'backupCount': 10,
+            'formatter': 'verbose',
+        },
+    },
+    # 4.0 日志器
+    'loggers': {
+        # 4.1 定义了一个名为django的日志器
+        'django': {
+            # 4.2 可以同时向终端和文件中输出日志
+            'handlers': ['console', 'file'],
+            # 4.3 是否继续传递日志信息
+            'propagate': True,
+            # 4.4 日志器接受的最低日志级别
+            'level': 'INFO',
+        }
+    }
+}

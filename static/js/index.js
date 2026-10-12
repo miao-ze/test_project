@@ -57,6 +57,9 @@ document.querySelectorAll('.like-btn').forEach(btn => {
     });
 });
 
+
+
+
 // ========== 登录注册功能 ==========
 const authModal = document.getElementById('authModal');
 const loginBtn = document.getElementById('loginBtn');
