@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
 
     'apps.article.apps.ArticleConfig', # 激活article应用
-    'apps.main.apps.MainConfig'        # 激活main应用
+    'apps.main.apps.MainConfig',        # 激活main应用
+    'apps.verifications.apps.VerificationsConfig'
 ]
 
 MIDDLEWARE = [
@@ -88,7 +89,7 @@ WSGI_APPLICATION = "test_project.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
-        'HOST':'172.18.141.17',
+        'HOST':'172.16.249.171',
         'POST':'3306',
         'USER':'test_project',
         "NAME": 'test_project',
@@ -202,3 +203,9 @@ LOGGING = {
         }
     }
 }
+
+# 声明使用 article 应用下的 User 作为系统用户模型
+AUTH_USER_MODEL = 'article.User'
+
+
+LOGIN_URL = '/login/'

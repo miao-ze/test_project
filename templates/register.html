@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}用户注册{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center mt-5">
+    <div class="col-md-6 col-lg-5">
+        <div class="card shadow-lg border-0 rounded-lg">
+            <!-- 卡片头部 -->
+            <div class="card-header bg-white text-center py-3 border-0">
+                <h3 class="font-weight-light my-2">注册新账号</h3>
+            </div>
+            
+            <!-- 卡片内容区 -->
+            <div class="card-body px-4 pt-0">
+                <form method="post" action="{% url 'verifications:register' %}" novalidate>
+                    {% csrf_token %}
+                    
+                    <!-- 非字段错误提示 (比如密码太简单等全局错误) -->
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger" role="alert">
+                            {% for error in form.non_field_errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+
+                    <!-- 用户名 输入框 -->
+                    <div class="form-group mb-3">
+                        <label class="mb-1" for="{{ form.username.id_for_label }}">
+                            {{ form.username.label }}
+                        </label>
+                        <!-- 由于你在forms.py中已经设置了 widget=forms.TelInput(attrs={'class': 'form-control'})，直接渲染即可 -->
+                        {{ form.username }}
+                        {% if form.username.errors %}
+                            <div class="invalid-feedback d-block mt-1 text-danger">
+                                {{ form.username.errors.0 }}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- 密码 输入框 -->
+                    <div class="form-group mb-4">
+                        <label class="mb-1" for="{{ form.password.id_for_label }}">
+                            {{ form.password.label }}
+                        </label>
+                        {{ form.password }}
+                        {% if form.password.errors %}
+                            <div class="invalid-feedback d-block mt-1 text-danger">
+                                {{ form.password.errors.0 }}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- 提交按钮 -->
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary btn-block py-2 font-weight-bold">
+                            立即注册
+                        </button>
+                    </div>
+                </form>
+            </div>
+            
+            <!-- 卡片底部：去登录的链接 -->
+            <div class="card-footer text-center py-3 bg-light border-0">
+                <div class="small">
+                    已有账号？ <a href="{% url 'verifications:login' %}">去登录</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 自定义一点小过渡效果 -->
+<style>
+    .card {
+        transition: all 0.3s ease-in-out;
+    }
+    .card:hover {
+        box-shadow: 0 1rem 3rem rgba(0,0,0,.175)!important;
+    }
+    .form-control:focus {
+        border-color: #80bdff;
+        box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+    }
+</style>
+{% endblock %}

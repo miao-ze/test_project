@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}登录页面{% endblock %}
+
+{% block content %}
+<style type="text/css">
+    .errorlist {
+        color: red;
+        list-style: none;
+        padding: 0;
+        margin-top: 5px;
+        font-size: 0.875em;
+    }
+</style>
+
+<div class="container" style="margin-top: 50px; max-width: 500px;">
+    <div class="card shadow-sm">
+        <div class="card-body p-4">
+            <h3 class="card-title text-center mb-4">用户登录</h3>
+
+            <form action="" method="post">
+                {% csrf_token %}
+
+                <!-- 用户名表单组 -->
+                <div class="form-group">
+                    <label for="{{ form.username.id_for_label }}">{{ form.username.label }}:</label>
+                    {{ form.username }}
+                    {{ form.username.errors }}
+                </div>
+
+                <!-- 密码表单组 -->
+                <div class="form-group">
+                    <label for="{{ form.password.id_for_label }}">{{ form.password.label }}:</label>
+                    {{ form.password }}
+                    {{ form.password.errors }}
+                </div>
+
+                <!-- 提交按钮 -->
+                <button type="submit" class="btn btn-primary btn-block mt-4">提交</button>
+                <a href="{% url 'verifications:register' %}" type="submit" class="btn btn-primary btn-block mt-4">无有账号？去注册</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

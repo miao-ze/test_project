@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>青柚表白墙 - 校园心动聚集地</title>
+    <title>师大科院表白墙 - 校园心动聚集地</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome 图标 -->
@@ -70,9 +70,26 @@
 
                 <!-- 右侧按钮组 -->
                 <div class="hidden md:flex items-center space-x-4">
-                    <button id="loginBtn" class="text-gray-600 hover:text-primary transition-colors font-medium">登录</button>
-                    <button id="publishBtn" class="px-6 py-2 bg-gradient-to-r from-primary to-pink-400 text-white rounded-full shadow-md hover:shadow-lg transition-all font-medium">
-                        <i class="fa-solid fa-pen-to-square mr-1"></i> 发布表白
+
+                    <!-- 包裹容器，可根据你原有的排版调整 class -->
+                    <div class="flex items-center space-x-4">
+                        {% if user.is_authenticated %}
+                            <!-- 已登录：显示登录名 -->
+                            <!-- 你可以选择显示为纯文本，或者做成一个下拉菜单的触发按钮 -->
+                            <span class="text-primary font-medium">{{ user.username }}</span>
+
+                            <!-- 建议：由于已经登录，通常需要一个退出登录的入口 -->
+                            <a href="{% url 'verifications:logout' %}" class="text-gray-400 hover:text-primary transition-colors font-medium text-sm">退出</a>
+                        {% else %}
+                            <!-- 未登录：显示原有的登录和注册按钮 -->
+                            <button id="loginBtn" class="text-gray-600 hover:text-primary transition-colors font-medium">登录</button>
+                            <button id="RegisterBtn" class="text-gray-600 hover:text-primary transition-colors font-medium">注册</button>
+                        {% endif %}
+                    </div>
+
+
+                    <button id="Add_article" class="px-6 py-2 bg-gradient-to-r from-primary to-pink-400 text-white rounded-full shadow-md hover:shadow-lg transition-all font-medium">
+                        <a href="{% url 'article:add_article' %}" class="fa-solid fa-pen-to-square mr-1"></a> 发布表白
                     </button>
                 </div>
 
@@ -91,12 +108,15 @@
                 <a href="#rank" class="py-2 text-gray-600">心动排行</a>
                 <a href="#find" class="py-2 text-gray-600">捞人寻物</a>
                 <a href="#about" class="py-2 text-gray-600">关于我们</a>
+
                 <button id="mobileLoginBtn" class="w-full py-2.5 border border-primary text-primary rounded-full font-medium mt-2">
                     登录 / 注册
                 </button>
+
                 <button class="w-full py-2.5 bg-gradient-to-r from-primary to-pink-400 text-white rounded-full font-medium">
-                    <i class="fa-solid fa-pen-to-square mr-1"></i> 发布表白
+                    <a href="{% url 'article:add_article' %}" class="fa-solid fa-pen-to-square mr-1"></a> 发布表白
                 </button>
+
             </div>
         </div>
     </header>
@@ -117,7 +137,7 @@
                         匿名发布，全校可见。守护你的每一份心动，让错过变成相遇。
                     </p>
                     <div class="flex flex-wrap gap-4 justify-center md:justify-start">
-                        <button class="px-8 py-3 bg-gradient-to-r from-primary to-pink-400 text-white rounded-full shadow-lg hover:shadow-xl transition-all font-medium">
+                        <button id="publishContent" class="px-8 py-3 bg-gradient-to-r from-primary to-pink-400 text-white rounded-full shadow-lg hover:shadow-xl transition-all font-medium">
                             立即发布表白 <i class="fa-solid fa-arrow-right ml-2"></i>
                         </button>
                         <button id="goWallBtn" class="px-8 py-3 bg-white border border-gray-200 rounded-full hover:border-primary hover:text-primary transition-all font-medium">
@@ -357,8 +377,8 @@
             <p class="text-gray-600 mb-8 max-w-xl mx-auto">
                 匿名发布，安全保密。也许你喜欢的人，正在这里等你开口。
             </p>
-            <button class="px-10 py-3.5 bg-gradient-to-r from-primary to-pink-400 text-white rounded-full shadow-lg hover:shadow-xl transition-all font-medium text-lg">
-                <i class="fa-solid fa-pen-to-square mr-2"></i> 立刻发布表白
+            <button id="Add_article" class="px-10 py-3.5 bg-gradient-to-r from-primary to-pink-400 text-white rounded-full shadow-lg hover:shadow-xl transition-all font-medium text-lg">
+                <a href="{% url 'article:add_article' %}" class="fa-solid fa-pen-to-square mr-2"></a> 立刻发布表白
             </button>
             <p class="text-xs text-gray-400 mt-4">发布即同意《社区公约》，请文明发言</p>
         </div>
@@ -399,7 +419,7 @@
                 </div>
             </div>
             <div class="border-t border-gray-700 mt-8 pt-6 text-center text-xs">
-                <p>© 2026 青柚表白墙 · 仅供校园交流使用 · 请文明发言</p>
+                <p>© 2026 师大科院表白墙 · 仅供校园交流使用 · 请文明发言</p>
             </div>
         </div>
     </footer>
@@ -407,157 +427,157 @@
 
 
     <!-- 登录注册模态框 -->
-    <div id="authModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/50 backdrop-blur-sm p-4">
-        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden relative animate-fade-in">
-            <!-- 关闭按钮 -->
-            <button id="closeModal" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-xl z-10">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-
-            <!-- 标签切换 -->
-            <div class="flex border-b">
-                <button class="auth-tab flex-1 py-4 font-medium text-primary border-b-2 border-primary" data-tab="login">登录</button>
-                <button class="auth-tab flex-1 py-4 font-medium text-gray-500 border-b-2 border-transparent hover:text-gray-700" data-tab="register">注册</button>
-            </div>
-
-            <!-- 登录表单 -->
-            <div id="loginForm" class="auth-form p-6">
-                <div class="text-center mb-6">
-                    <h3 class="text-xl font-bold text-dark mb-1">欢迎回来</h3>
-                    <p class="text-sm text-gray-500">登录后即可发布表白、参与互动</p>
-                </div>
-
-                <div class="space-y-4">
-                    <div>
-                        <label class="block text-sm text-gray-600 mb-1.5">学号 / 手机号 / 昵称</label>
-                        <div class="relative">
-                            <i class="fa-solid fa-user absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400"></i>
-                            <input type="text" placeholder="请输入学号或手机号或呢称" class="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all">
-                        </div>
-                    </div>
-
-                    <div>
-                        <label class="block text-sm text-gray-600 mb-1.5">密码</label>
-                        <div class="relative">
-                            <i class="fa-solid fa-lock absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400"></i>
-                            <input type="password" placeholder="请输入密码" class="w-full pl-10 pr-10 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all">
-                            <button type="button" class="toggle-pwd absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
-                                <i class="fa-regular fa-eye"></i>
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="flex items-center justify-between text-sm">
-                        <label class="flex items-center space-x-2 cursor-pointer">
-                            <input type="checkbox" class="w-4 h-4 accent-primary rounded">
-                            <span class="text-gray-600">记住我</span>
-                        </label>
-                        <a href="#" class="text-primary hover:underline">忘记密码？</a>
-                    </div>
-
-                    <button type="button" class="w-full py-3 bg-gradient-to-r from-primary to-pink-400 text-white rounded-xl font-medium shadow-md hover:shadow-lg transition-all">
-                        登录
-                    </button>
-
-                    <div class="relative my-4">
-                        <div class="absolute inset-0 flex items-center">
-                            <div class="w-full border-t border-gray-200"></div>
-                        </div>
-                        <div class="relative flex justify-center text-xs">
-                            <span class="px-2 bg-white text-gray-400">其他登录方式</span>
-                        </div>
-                    </div>
-
-                    <div class="flex justify-center space-x-6">
-                        <button class="w-10 h-10 rounded-full bg-green-50 flex items-center justify-center text-green-500 hover:bg-green-100 transition-colors">
-                            <i class="fa-brands fa-weixin"></i>
-                        </button>
-                        <button class="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-blue-500 hover:bg-blue-100 transition-colors">
-                            <i class="fa-brands fa-qq"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-
-
-
-            <!-- 注册表单 -->
-            <div id="registerForm" class="auth-form p-6 hidden">
-                <div class="text-center mb-6">
-                    <h3 class="text-xl font-bold text-dark mb-1">创建账号</h3>
-                    <p class="text-sm text-gray-500">加入青柚表白墙，遇见你的心动</p>
-                </div>
-
-                <div class="space-y-4">
-                    <div>
-                        <label class="block text-sm text-gray-600 mb-1.5">学号</label>
-                        <div class="relative">
-                            <i class="fa-solid fa-id-card absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400"></i>
-                            <input type="text" placeholder="请输入学号" class="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all">
-                        </div>
-                    </div>
-
-                    <div>
-                        <label class="block text-sm text-gray-600 mb-1.5">昵称</label>
-                        <div class="relative">
-                            <i class="fa-solid fa-face-smile absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400"></i>
-                            <input type="text" placeholder="给自己取个好听的昵称" class="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all">
-                        </div>
-                    </div>
-
-                    <div>
-                        <label class="block text-sm text-gray-600 mb-1.5">手机号</label>
-                        <div class="relative">
-                            <i class="fa-solid fa-mobile-screen absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400"></i>
-                            <input type="tel" placeholder="请输入手机号" class="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all">
-                        </div>
-                    </div>
-
-                    <div>
-                        <label class="block text-sm text-gray-600 mb-1.5">验证码</label>
-                        <div class="flex space-x-3">
-                            <div class="relative flex-1">
-                                <i class="fa-solid fa-shield-halved absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400"></i>
-                                <input type="text" placeholder="请输入验证码" class="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all">
-                            </div>
-                            <button type="button" class="px-4 py-2.5 text-sm text-primary bg-primary/10 rounded-xl hover:bg-primary/20 transition-colors whitespace-nowrap">
-                                获取验证码
-                            </button>
-                        </div>
-                    </div>
-
-                    <div>
-                        <label class="block text-sm text-gray-600 mb-1.5">设置密码</label>
-                        <div class="relative">
-                            <i class="fa-solid fa-lock absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400"></i>
-                            <input type="password" placeholder="6-16位密码，包含字母数字" class="w-full pl-10 pr-10 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all">
-                            <button type="button" class="toggle-pwd absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
-                                <i class="fa-regular fa-eye"></i>
-                            </button>
-                        </div>
-                    </div>
-
-                    <div>
-                        <label class="block text-sm text-gray-600 mb-1.5">确认密码</label>
-                        <div class="relative">
-                            <i class="fa-solid fa-lock absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400"></i>
-                            <input type="password" placeholder="请再次输入密码" class="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all">
-                        </div>
-                    </div>
-
-                    <label class="flex items-start space-x-2 cursor-pointer text-sm">
-                        <input type="checkbox" class="w-4 h-4 accent-primary rounded mt-0.5">
-                        <span class="text-gray-600">我已阅读并同意 <a href="#" class="text-primary hover:underline">《用户协议》</a> 和 <a href="#" class="text-primary hover:underline">《隐私政策》</a></span>
-                    </label>
-
-                    <button type="button" class="w-full py-3 bg-gradient-to-r from-primary to-pink-400 text-white rounded-xl font-medium shadow-md hover:shadow-lg transition-all">
-                        立即注册
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
+{#    <div id="authModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/50 backdrop-blur-sm p-4">#}
+{#        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden relative animate-fade-in">#}
+{#            <!-- 关闭按钮 -->#}
+{#            <button id="closeModal" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-xl z-10">#}
+{#                <i class="fa-solid fa-xmark"></i>#}
+{#            </button>#}
+{##}
+{#            <!-- 标签切换 -->#}
+{#            <div class="flex border-b">#}
+{#                <button class="auth-tab flex-1 py-4 font-medium text-primary border-b-2 border-primary" data-tab="login">登录</button>#}
+{#                <button class="auth-tab flex-1 py-4 font-medium text-gray-500 border-b-2 border-transparent hover:text-gray-700" data-tab="register">注册</button>#}
+{#            </div>#}
+{##}
+{#            <!-- 登录表单 -->#}
+{#            <div id="loginForm" class="auth-form p-6">#}
+{#                <div class="text-center mb-6">#}
+{#                    <h3 class="text-xl font-bold text-dark mb-1">欢迎回来</h3>#}
+{#                    <p class="text-sm text-gray-500">登录后即可发布表白、参与互动</p>#}
+{#                </div>#}
+{##}
+{#                <div class="space-y-4">#}
+{#                    <div>#}
+{#                        <label class="block text-sm text-gray-600 mb-1.5">学号 / 手机号 / 昵称</label>#}
+{#                        <div class="relative">#}
+{#                            <i class="fa-solid fa-user absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400"></i>#}
+{#                            <input type="text" placeholder="请输入学号或手机号或呢称" class="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all">#}
+{#                        </div>#}
+{#                    </div>#}
+{##}
+{#                    <div>#}
+{#                        <label class="block text-sm text-gray-600 mb-1.5">密码</label>#}
+{#                        <div class="relative">#}
+{#                            <i class="fa-solid fa-lock absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400"></i>#}
+{#                            <input type="password" placeholder="请输入密码" class="w-full pl-10 pr-10 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all">#}
+{#                            <button type="button" class="toggle-pwd absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">#}
+{#                                <i class="fa-regular fa-eye"></i>#}
+{#                            </button>#}
+{#                        </div>#}
+{#                    </div>#}
+{##}
+{#                    <div class="flex items-center justify-between text-sm">#}
+{#                        <label class="flex items-center space-x-2 cursor-pointer">#}
+{#                            <input type="checkbox" class="w-4 h-4 accent-primary rounded">#}
+{#                            <span class="text-gray-600">记住我</span>#}
+{#                        </label>#}
+{#                        <a href="#" class="text-primary hover:underline">忘记密码？</a>#}
+{#                    </div>#}
+{##}
+{#                    <button type="button" class="w-full py-3 bg-gradient-to-r from-primary to-pink-400 text-white rounded-xl font-medium shadow-md hover:shadow-lg transition-all">#}
+{#                        登录#}
+{#                    </button>#}
+{##}
+{#                    <div class="relative my-4">#}
+{#                        <div class="absolute inset-0 flex items-center">#}
+{#                            <div class="w-full border-t border-gray-200"></div>#}
+{#                        </div>#}
+{#                        <div class="relative flex justify-center text-xs">#}
+{#                            <span class="px-2 bg-white text-gray-400">其他登录方式</span>#}
+{#                        </div>#}
+{#                    </div>#}
+{##}
+{#                    <div class="flex justify-center space-x-6">#}
+{#                        <button class="w-10 h-10 rounded-full bg-green-50 flex items-center justify-center text-green-500 hover:bg-green-100 transition-colors">#}
+{#                            <i class="fa-brands fa-weixin"></i>#}
+{#                        </button>#}
+{#                        <button class="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-blue-500 hover:bg-blue-100 transition-colors">#}
+{#                            <i class="fa-brands fa-qq"></i>#}
+{#                        </button>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+{##}
+{##}
+{##}
+{##}
+{#            <!-- 注册表单 -->#}
+{#            <div id="registerForm" class="auth-form p-6 hidden">#}
+{#                <div class="text-center mb-6">#}
+{#                    <h3 class="text-xl font-bold text-dark mb-1">创建账号</h3>#}
+{#                    <p class="text-sm text-gray-500">加入青柚表白墙，遇见你的心动</p>#}
+{#                </div>#}
+{##}
+{#                <div class="space-y-4">#}
+{#                    <div>#}
+{#                        <label class="block text-sm text-gray-600 mb-1.5">学号</label>#}
+{#                        <div class="relative">#}
+{#                            <i class="fa-solid fa-id-card absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400"></i>#}
+{#                            <input type="text" placeholder="请输入学号" class="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all">#}
+{#                        </div>#}
+{#                    </div>#}
+{##}
+{#                    <div>#}
+{#                        <label class="block text-sm text-gray-600 mb-1.5">昵称</label>#}
+{#                        <div class="relative">#}
+{#                            <i class="fa-solid fa-face-smile absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400"></i>#}
+{#                            <input type="text" placeholder="给自己取个好听的昵称" class="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all">#}
+{#                        </div>#}
+{#                    </div>#}
+{##}
+{#                    <div>#}
+{#                        <label class="block text-sm text-gray-600 mb-1.5">手机号</label>#}
+{#                        <div class="relative">#}
+{#                            <i class="fa-solid fa-mobile-screen absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400"></i>#}
+{#                            <input type="tel" placeholder="请输入手机号" class="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all">#}
+{#                        </div>#}
+{#                    </div>#}
+{##}
+{#                    <div>#}
+{#                        <label class="block text-sm text-gray-600 mb-1.5">验证码</label>#}
+{#                        <div class="flex space-x-3">#}
+{#                            <div class="relative flex-1">#}
+{#                                <i class="fa-solid fa-shield-halved absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400"></i>#}
+{#                                <input type="text" placeholder="请输入验证码" class="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all">#}
+{#                            </div>#}
+{#                            <button type="button" class="px-4 py-2.5 text-sm text-primary bg-primary/10 rounded-xl hover:bg-primary/20 transition-colors whitespace-nowrap">#}
+{#                                获取验证码#}
+{#                            </button>#}
+{#                        </div>#}
+{#                    </div>#}
+{##}
+{#                    <div>#}
+{#                        <label class="block text-sm text-gray-600 mb-1.5">设置密码</label>#}
+{#                        <div class="relative">#}
+{#                            <i class="fa-solid fa-lock absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400"></i>#}
+{#                            <input type="password" placeholder="6-16位密码，包含字母数字" class="w-full pl-10 pr-10 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all">#}
+{#                            <button type="button" class="toggle-pwd absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">#}
+{#                                <i class="fa-regular fa-eye"></i>#}
+{#                            </button>#}
+{#                        </div>#}
+{#                    </div>#}
+{##}
+{#                    <div>#}
+{#                        <label class="block text-sm text-gray-600 mb-1.5">确认密码</label>#}
+{#                        <div class="relative">#}
+{#                            <i class="fa-solid fa-lock absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400"></i>#}
+{#                            <input type="password" placeholder="请再次输入密码" class="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all">#}
+{#                        </div>#}
+{#                    </div>#}
+{##}
+{#                    <label class="flex items-start space-x-2 cursor-pointer text-sm">#}
+{#                        <input type="checkbox" class="w-4 h-4 accent-primary rounded mt-0.5">#}
+{#                        <span class="text-gray-600">我已阅读并同意 <a href="#" class="text-primary hover:underline">《用户协议》</a> 和 <a href="#" class="text-primary hover:underline">《隐私政策》</a></span>#}
+{#                    </label>#}
+{##}
+{#                    <button type="button" class="w-full py-3 bg-gradient-to-r from-primary to-pink-400 text-white rounded-xl font-medium shadow-md hover:shadow-lg transition-all">#}
+{#                        立即注册#}
+{#                    </button>#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
 
     <script src="../static/js/index.js"></script>
 </body>
