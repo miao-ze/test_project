@@ -26,7 +26,7 @@ SECRET_KEY = "django-insecure-qh1ofz=)hhh!17a3j%3d2@nnvh_2tb9#d@+&y%rxvcra0=@g40
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1','172.16.249.171','172.18.141.17']
 
 
 # Application definition
@@ -89,8 +89,8 @@ WSGI_APPLICATION = "test_project.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
-        'HOST':'172.16.249.171',
-        'POST':'3306',
+        'HOST':'127.0.0.1',
+        'PORT':'3306',
         'USER':'test_project',
         "NAME": 'test_project',
         'PASSWORD':'Aa@1901420817'
@@ -120,9 +120,6 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/6.1/topics/i18n/
 
-LANGUAGE_CODE = "en-us"
-
-TIME_ZONE = "UTC"
 
 USE_I18N = True
 
@@ -133,11 +130,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.1/howto/static-files/
 
 
-STATIC_URL = "static/"
-# 手动指定全局静态文件的存放路径
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
-]
+STATIC_URL = "/static/"
+# 1. 开发时，你存放自己写的静态文件的目录 (保留你的配置)
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'),]
+
+# 2. 部署时，collectstatic 收集所有静态文件(包括Django Admin和第三方库)>的目标目录
+# 注意：这个目录不能和 STATICFILES_DIRS 重复！
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Email
 # https://docs.djangoproject.com/en/6.1/topics/email/#topic-email-configuration
