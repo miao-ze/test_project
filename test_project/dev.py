@@ -26,8 +26,13 @@ SECRET_KEY = "django-insecure-qh1ofz=)hhh!17a3j%3d2@nnvh_2tb9#d@+&y%rxvcra0=@g40
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['overharshly-overinclinable-preston.ngrok-free.dev','127.0.0.1']
 
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://overharshly-overinclinable-preston.ngrok-free.dev",
+    # 后续更换ngrok域名时，同步添加新域名即可
+]
 
 # Application definition
 
@@ -41,7 +46,8 @@ INSTALLED_APPS = [
 
     'apps.article.apps.ArticleConfig', # 激活article应用
     'apps.main.apps.MainConfig',        # 激活main应用
-    'apps.verifications.apps.VerificationsConfig'
+    'apps.verifications.apps.VerificationsConfig',
+    'apps.sms.apps.SmsConfig'
 ]
 
 MIDDLEWARE = [
@@ -93,6 +99,26 @@ DATABASES = {
         'USER':'test_project',
         "NAME": 'test_project',
         'PASSWORD':'Aa@1901420817'
+    }
+}
+
+
+CACHES = {
+        "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://172.16.249.171:6379/0",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            "PASSWORD": "Aa@1901420817"
+        }
+    },
+    "SmsMobilePhone": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://172.16.249.171:6379/1",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            "PASSWORD": "Aa@1901420817"
+        }
     }
 }
 

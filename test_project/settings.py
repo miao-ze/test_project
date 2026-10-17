@@ -72,6 +72,26 @@ TEMPLATES = [
     },
 ]
 
+
+CACHES = {
+        "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/0",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            "PASSWORD": "Aa@1901420817"
+        }
+    },
+    "SmsMobilePhone": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1/1",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            "PASSWORD": "Aa@1901420817"
+        }
+    }
+}
+
 WSGI_APPLICATION = "test_project.wsgi.application"
 
 

@@ -25,5 +25,6 @@ urlpatterns = [
     # article
     path('',include('apps.article.urls',namespace='article')),
     path('',include('apps.verifications.urls',namespace='verifications')),
+    path('',include('apps.sms.urls',namespace='sms'))
 
 ]
